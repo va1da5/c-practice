@@ -19,6 +19,34 @@
   - C types: `int8_t`, `int16_t`, etc. (from `<stdint.h>`).
 - Practice: Write a program that prints the size of each type on your system.
 
+```c
+#include <stdio.h>
+
+int main() {
+  int integer_variable;
+  float float_variable;
+  char character_variable;
+  int array_of_integers[10];
+
+  printf("Size of int: %zu bytes\n", sizeof(int));
+  printf("Size of float: %zu bytes\n", sizeof(float));
+  printf("Size of char: %zu byte\n", sizeof(char));
+  printf("Size of integer_variable: %zu bytes\n", sizeof(integer_variable));
+  printf("Size of array_of_integers: %zu bytes\n", sizeof(array_of_integers));
+  printf("Number of elements in array_of_integers: %zu\n",
+         sizeof(array_of_integers) / sizeof(array_of_integers[0]));
+
+  return 0;
+}
+
+// Size of int: 4 bytes
+// Size of float: 4 bytes
+// Size of char: 1 byte
+// Size of integer_variable: 4 bytes
+// Size of array_of_integers: 40 bytes
+// Number of elements in array_of_integers: 10
+```
+
 ### Day 3: Operators and expressions
 
 - Topics: Arithmetic, logical, relational, bitwise, and assignment operators.
@@ -26,6 +54,88 @@
   - Emphasize operator precedence and associativity.
   - Introduce bitwise operations (e.g., `&`, `|`, `~`, `^`, `<<`, `>>`).
 - Practice: Implement a program that performs basic arithmetic and bitwise operations, displaying the results.
+
+```c
+#include <inttypes.h>
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+char *to_bin_repr(int16_t n) {
+  char *binary =
+      malloc(sizeof(int16_t) * CHAR_BIT + 1); // +1 for null terminator
+  int16_t size = sizeof(int16_t) * CHAR_BIT;
+
+  for (int i = size - 1; i >= 0; i--) {
+    binary[size - 1 - i] = (n & (1 << i)) ? '1' : '0';
+  }
+  binary[size] = '\0';
+  return binary;
+}
+
+void show(int16_t a, int16_t b, int16_t c, char *operator) {
+  printf("  %s (%" PRId16 ")\n%s %s (%" PRId16 ")\n= %s (%" PRId16 ")\n\n",
+         to_bin_repr(a), a, operator, to_bin_repr(b), b, to_bin_repr(c), c);
+}
+
+int main() {
+  int16_t a = 0b00010101;
+  int16_t b = 0b00001010;
+  show(a, b, a + b, "+");
+
+  show(a, b, a - b, "-");
+
+  b = 0b00001111;
+  show(a, b, a & b, "&");
+
+  b = 0b00001010;
+  show(a, b, a | b, "|");
+
+  b = 0b00001011;
+  show(a, b, a ^ b, "^");
+
+  b = 0b00001010;
+  show(0, a, ~a, "~");
+
+  show(0, 1, 1 << 2, " 1 << 2 ");
+
+  show(0, 16, 16 >> 3, "16 >> 3");
+
+  return 0;
+}
+
+//   0000000000010101 (21)
+// + 0000000000001010 (10)
+// = 0000000000011111 (31)
+
+//   0000000000010101 (21)
+// - 0000000000001010 (10)
+// = 0000000000001011 (11)
+
+//   0000000000010101 (21)
+// & 0000000000001111 (15)
+// = 0000000000000101 (5)
+
+//   0000000000010101 (21)
+// | 0000000000001010 (10)
+// = 0000000000011111 (31)
+
+//   0000000000010101 (21)
+// ^ 0000000000001011 (11)
+// = 0000000000011110 (30)
+
+//   0000000000000000 (0)
+// ~ 0000000000010101 (21)
+// = 1111111111101010 (-22)
+
+//   0000000000000000 (0)
+//  1 << 2  0000000000000001 (1)
+// = 0000000000000100 (4)
+
+//   0000000000000000 (0)
+// 16 >> 3 0000000000010000 (16)
+// = 0000000000000010 (2)
+```
 
 ### Day 4: Control flow - Conditional statements
 
