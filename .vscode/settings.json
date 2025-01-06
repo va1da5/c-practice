@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "stdio": "c"
+        "stdio": "c",
+        "netdb.h": "c"
     }
 }

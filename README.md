@@ -172,7 +172,7 @@ inline f();                 // Optimize for speed
 
 ```c
 t.x                         // Member x of struct or class t
-p-> x                       // Member x of struct or class pointed to by p
+p->x                       // Member x of struct or class pointed to by p
 a[i]                        // i'th element of array a
 f(x,y)                      // Call to function f with arguments x and y
 x++                         // Add 1 to x, evaluates to original x (postfix)
